@@ -1,9 +1,13 @@
 <template>
-  <div></div>
+  <q-page class="fit">
+    index
+  </q-page>
 </template>
 
 <script>
-export default {}
+export default {
+  name: 'PageIndex'
+}
 </script>
 
 <style lang="scss" scoped></style>

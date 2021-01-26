@@ -1,5 +1,5 @@
 <template>
-  <q-page class="flex flex-center">
+  <q-page class="fit">
     index
   </q-page>
 </template>
@@ -9,3 +9,5 @@ export default {
   name: 'PageIndex'
 }
 </script>
+
+<style lang="scss" scoped></style>

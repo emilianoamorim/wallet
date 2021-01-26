@@ -61,9 +61,7 @@
       </q-drawer>
 
       <q-page-container>
-        <q-page>
-          <router-view />
-        </q-page>
+        <router-view />
       </q-page-container>
 
     </q-layout>
@@ -78,3 +76,5 @@ export default {
   })
 }
 </script>
+
+<style lang="scss" scoped></style>
