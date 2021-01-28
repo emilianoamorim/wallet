@@ -1,6 +1,7 @@
 <template>
   <q-page class="fit q-pa-lg">
 
+    <!-- import dialog component -->
     <HandlerCustomer/>
 
     <div class="page-title">
@@ -9,149 +10,123 @@
     </div>
 
     <div class="q-mt-lg">
-      <q-table
-        title="Treats"
-        :data="data"
-        :columns="columns"
-        row-key="name"
-      />
+
+      <div v-if="preloadTable">
+        <q-markup-table>
+          <thead>
+            <tr>
+              <th class="text-left" style="width: 150px">
+                <q-skeleton animation="blink" type="text" />
+              </th>
+              <th class="text-right">
+                <q-skeleton animation="blink" type="text" />
+              </th>
+              <th class="text-right">
+                <q-skeleton animation="blink" type="text" />
+              </th>
+              <th class="text-right">
+                <q-skeleton animation="blink" type="text" />
+              </th>
+              <th class="text-right">
+                <q-skeleton animation="blink" type="text" />
+              </th>
+              <th class="text-right">
+                <q-skeleton animation="blink" type="text" />
+              </th>
+            </tr>
+          </thead>
+
+          <tbody>
+            <tr v-for="n in 5" :key="n">
+              <td class="text-left">
+                <q-skeleton animation="blink" type="text" width="85px" />
+              </td>
+              <td class="text-right">
+                <q-skeleton animation="blink" type="text" width="50px" />
+              </td>
+              <td class="text-right">
+                <q-skeleton animation="blink" type="text" width="35px" />
+              </td>
+              <td class="text-right">
+                <q-skeleton animation="blink" type="text" width="65px" />
+              </td>
+              <td class="text-right">
+                <q-skeleton animation="blink" type="text" width="25px" />
+              </td>
+              <td class="text-right">
+                <q-skeleton animation="blink" type="text" width="85px" />
+              </td>
+            </tr>
+          </tbody>
+        </q-markup-table>
+      </div>
+      <div v-else>
+        <q-table
+          title="Lista"
+          :data="data"
+          :columns="columns"
+          row-key="name">
+          <template v-slot:body-cell-actions="props">
+            <q-td :props="props">
+              <div>
+                <q-btn to="/customers/edit/1" icon="create" dense flat/>
+              </div>
+            </q-td>
+          </template>
+        </q-table>
+      </div>
+
     </div>
 
   </q-page>
 </template>
 
 <script>
-import { mapMutations } from 'vuex'
 export default {
   name: 'PageCustomers',
   components: {
     HandlerCustomer: () => import('../../components/HandlerCustomer')
   },
-  methods: {
-    ...mapMutations('example', ['handlerCustomerMutation'])
+  created () {
+    setTimeout(() => {
+      this.preloadTable = false
+    }, 1500)
   },
   data: () => ({
+    preloadTable: true,
     columns: [
       {
         name: 'name',
         required: true,
-        label: 'Dessert (100g serving)',
+        label: 'Nome',
         align: 'left',
         field: row => row.name,
         format: val => `${val}`,
         sortable: true
       },
-      { name: 'calories', align: 'center', label: 'Calories', field: 'calories', sortable: true },
-      { name: 'fat', label: 'Fat (g)', field: 'fat', sortable: true },
-      { name: 'carbs', label: 'Carbs (g)', field: 'carbs' },
-      { name: 'protein', label: 'Protein (g)', field: 'protein' },
-      { name: 'sodium', label: 'Sodium (mg)', field: 'sodium' },
-      { name: 'calcium', label: 'Calcium (%)', field: 'calcium', sortable: true, sort: (a, b) => parseInt(a, 10) - parseInt(b, 10) },
-      { name: 'iron', label: 'Iron (%)', field: 'iron', sortable: true, sort: (a, b) => parseInt(a, 10) - parseInt(b, 10) }
+      { name: 'age', align: 'left', label: 'Idade', field: 'age', sortable: true },
+      { name: 'account_type', align: 'left', label: 'Tipo de conta', field: 'account_type', sortable: true },
+      { name: 'document', align: 'left', label: 'Documento', field: 'document' },
+      { name: 'email', align: 'left', label: 'E-mail', field: 'email' },
+      { name: 'created_at', align: 'left', label: 'Criado em', field: 'created_at' },
+      { name: 'actions', align: 'left', label: 'Ações', field: 'actions' }
     ],
     data: [
       {
-        name: 'Frozen Yogurt',
-        calories: 159,
-        fat: 6.0,
-        carbs: 24,
-        protein: 4.0,
-        sodium: 87,
-        calcium: '14%',
-        iron: '1%'
-      },
-      {
-        name: 'Ice cream sandwich',
-        calories: 237,
-        fat: 9.0,
-        carbs: 37,
-        protein: 4.3,
-        sodium: 129,
-        calcium: '8%',
-        iron: '1%'
-      },
-      {
-        name: 'Eclair',
-        calories: 262,
-        fat: 16.0,
-        carbs: 23,
-        protein: 6.0,
-        sodium: 337,
-        calcium: '6%',
-        iron: '7%'
-      },
-      {
-        name: 'Cupcake',
-        calories: 305,
-        fat: 3.7,
-        carbs: 67,
-        protein: 4.3,
-        sodium: 413,
-        calcium: '3%',
-        iron: '8%'
-      },
-      {
-        name: 'Gingerbread',
-        calories: 356,
-        fat: 16.0,
-        carbs: 49,
-        protein: 3.9,
-        sodium: 327,
-        calcium: '7%',
-        iron: '16%'
-      },
-      {
-        name: 'Jelly bean',
-        calories: 375,
-        fat: 0.0,
-        carbs: 94,
-        protein: 0.0,
-        sodium: 50,
-        calcium: '0%',
-        iron: '0%'
-      },
-      {
-        name: 'Lollipop',
-        calories: 392,
-        fat: 0.2,
-        carbs: 98,
-        protein: 0,
-        sodium: 38,
-        calcium: '0%',
-        iron: '2%'
-      },
-      {
-        name: 'Honeycomb',
-        calories: 408,
-        fat: 3.2,
-        carbs: 87,
-        protein: 6.5,
-        sodium: 562,
-        calcium: '0%',
-        iron: '45%'
-      },
-      {
-        name: 'Donut',
-        calories: 452,
-        fat: 25.0,
-        carbs: 51,
-        protein: 4.9,
-        sodium: 326,
-        calcium: '2%',
-        iron: '22%'
-      },
-      {
-        name: 'KitKat',
-        calories: 518,
-        fat: 26.0,
-        carbs: 65,
-        protein: 7,
-        sodium: 54,
-        calcium: '12%',
-        iron: '6%'
+        name: 'Monkey d luffy',
+        age: 18,
+        account_type: 'Pessoa Física',
+        document: '000.000.000-00',
+        email: 'dluffy@onepiece.com',
+        created_at: '01/01/2021'
       }
     ]
-  })
+  }),
+  methods: {
+    handlerCustomerMutation (val) {
+      this.$store.commit('example/handlerCustomerMutation', val)
+    }
+  }
 }
 </script>
 
